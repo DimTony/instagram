@@ -180,6 +180,16 @@ const Landing = () => {
           </VStack>
         </Stack>
       </Box>
+
+      <Box
+        display={{ md: "none", base: "flex" }}
+        w="100vw"
+        h="100vh"
+        bg="#000"
+        color="#fff"
+      >
+        Here
+      </Box>
     </>
   );
 };
