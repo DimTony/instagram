@@ -1,0 +1,203 @@
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-blackitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-bolditalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-heavy.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-heavyitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-lightitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-mediumitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-regularitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-semibold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-semibolditalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-thin.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-thinitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-ultralight.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BlickMacSystem";
+  src: url("./fonts/blinkmacsystemfont-ultralightitalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("./fonts/Segoe UI Bold Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("./fonts/Segoe UI Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("./fonts/Segoe UI Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Segoe UI";
+  src: url("./fonts/Segoe UI.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/Helvetica-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/Helvetica-BoldOblique.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/helvetica-compressed-5871d14b6903a.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/helvetica-light-587ebe5a59211.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/Helvetica-Oblique.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/helvetica-rounded-bold-5871d05ead8de.otf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("./fonts/Helvetica.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
