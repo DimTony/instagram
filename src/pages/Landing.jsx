@@ -240,7 +240,7 @@ const Landing = () => {
 
             <HStack w="100%" justifyContent="flex-end" mb="1.5rem">
               <Link to="">
-                <Text>Forgot password?</Text>
+                <Text fontSize="14px">Forgot password?</Text>
               </Link>
             </HStack>
 
