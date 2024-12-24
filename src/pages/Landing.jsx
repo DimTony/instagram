@@ -181,14 +181,96 @@ const Landing = () => {
         </Stack>
       </Box>
 
-      <Box
-        display={{ md: "none", base: "flex" }}
-        w="100vw"
-        h="100vh"
-        bg="#000"
-        color="#fff"
-      >
-        Here
+      <Box display={{ md: "none", base: "flex" }} w="100vw" h="100vh" bg="#fff">
+        <Stack
+          w="100%"
+          h="100%"
+          alignItems="center"
+          justifyContent="space-between"
+          pt="5rem"
+          px="4.5rem"
+        >
+          <VStack w="100%">
+            <Image
+              src="./images/insta.png"
+              alt="logo"
+              w="175px"
+              h="51px"
+              mb="3rem"
+            />
+
+            <VStack w="100%" gap="1rem">
+              <Input
+                placeholder="Phone number, username or email"
+                type="text"
+                name="username"
+                h="36px"
+                border="1px solid rgb(219, 219, 219)"
+                fontSize="12px"
+                bg="rgb(250, 250, 250)"
+                display="flex"
+                alignItems="center"
+                color="rgb(115, 115, 115)"
+                borderRadius="3px"
+                textOverflow="ellipsis"
+                overflow="hidden"
+                transformOrigin="left"
+                transition="transform ease-out .1s"
+                whiteSpace="nowrap"
+              />
+              <Input
+                placeholder="Password"
+                type="password"
+                name="password"
+                h="36px"
+                border="1px solid rgb(219, 219, 219)"
+                fontSize="12px"
+                bg="rgb(250, 250, 250)"
+                display="flex"
+                alignItems="center"
+                color="rgb(115, 115, 115)"
+                borderRadius="3px"
+                textOverflow="ellipsis"
+                overflow="hidden"
+                transformOrigin="left"
+                transition="transform ease-out .1s"
+                whiteSpace="nowrap"
+              />
+            </VStack>
+
+            <HStack w="100%" justifyContent="flex-end" mb="1.5rem">
+              <Link to="">
+                <Text>Forgot password?</Text>
+              </Link>
+            </HStack>
+
+            <Button
+              mb="0.7rem"
+              w="100%"
+              bg="rgb(0, 149, 246)"
+              h="2rem"
+              border="none"
+              borderRadius="8px"
+              _disabled={{
+                opacity: "0.7",
+                pointerEvent: "none",
+                cursor: "default",
+              }}
+              // disabled
+            >
+              Log in
+            </Button>
+          </VStack>
+
+          <HStack mb="2rem">
+            <Image
+              src="./images/meta-footer.svg"
+              alt="logo"
+              w="52px"
+              h="26.56px"
+            />
+          </HStack>
+        </Stack>
       </Box>
     </>
   );
