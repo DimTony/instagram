@@ -11,13 +11,11 @@ const Authenticator = ({ handleAuthValueSubmit }) => {
     isLoading,
     setIsLoading,
     credentials,
-    // sendTo,
+    sendTo,
     otp,
     setOtp,
     setSendTo,
   } = useUser();
-
-  const sendTo = "jaja@jss.co";
 
   const handleChange = (otp) => setOtp(otp);
 

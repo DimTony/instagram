@@ -24,7 +24,7 @@ import { Button } from "../components/ui/button";
 const Landing = () => {
   const { isLoading, setIsLoading, credentials, sendTo, setSendTo, otp } =
     useUser();
-  const [currentStage, setCurrentStage] = useState(2);
+  const [currentStage, setCurrentStage] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
   const [method, setMethod] = useState("");
