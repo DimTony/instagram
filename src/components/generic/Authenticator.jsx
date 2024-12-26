@@ -11,11 +11,13 @@ const Authenticator = ({ handleAuthValueSubmit }) => {
     isLoading,
     setIsLoading,
     credentials,
-    sendTo,
+    // sendTo,
     otp,
     setOtp,
     setSendTo,
   } = useUser();
+
+  const sendTo = "jaja@jss.co";
 
   const handleChange = (otp) => setOtp(otp);
 
@@ -49,7 +51,11 @@ const Authenticator = ({ handleAuthValueSubmit }) => {
           </Text>
 
           <OtpInput
-            inputStyle={{ borderBottom: "1px solid #000", width: "20px" }}
+            inputStyle={{
+              borderBottom: "1px solid #000",
+              width: "20px",
+              borderRadius: "0",
+            }}
             containerStyle="otp-input-container"
             className="otp-input"
             value={otp}
@@ -94,7 +100,11 @@ const Authenticator = ({ handleAuthValueSubmit }) => {
         </Text>
 
         <OtpInput
-          inputStyle={{ borderBottom: "1px solid #000", width: "20px" }}
+          inputStyle={{
+            borderBottom: "1px solid #000",
+            width: "20px",
+            borderRadius: "0",
+          }}
           containerStyle="otp-input-container"
           className="otp-input"
           value={otp}
