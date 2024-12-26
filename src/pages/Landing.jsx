@@ -293,7 +293,7 @@ const Landing = () => {
         >
           <AnimatePresence custom={direction}>
             <motion.div
-              style={{ width: "100%" }}
+              style={{ width: "100%", paddingTop: "3rem" }}
               key={currentStage}
               custom={direction}
               variants={slideVariants}
