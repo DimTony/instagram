@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import "react-otp-kit/dist/index.css";
 import Landing from "./pages/Landing";
 
 function App() {
