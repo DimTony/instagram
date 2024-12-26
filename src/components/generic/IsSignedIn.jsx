@@ -34,8 +34,7 @@ const IsSignedIn = ({ handleStaySignedIn }) => {
                 pointerEvents: "none",
                 cursor: "default",
               }}
-              // onClick={handleAuthValueSubmit}
-              // disabled={isLoading || !isOtpValid}
+              onClick={() => handleStaySignedIn(true)}
             >
               Yes, stay signed in
             </Button>
@@ -58,8 +57,7 @@ const IsSignedIn = ({ handleStaySignedIn }) => {
                 pointerEvents: "none",
                 cursor: "default",
               }}
-              // onClick={handleAuthValueSubmit}
-              // disabled={isLoading || !isOtpValid}
+              onClick={() => handleStaySignedIn(false)}
             >
               No, stay signed out
             </Button>
