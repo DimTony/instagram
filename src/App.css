@@ -22,3 +22,23 @@ body {
   z-index: 2;
   min-height: 100vh;
 }
+
+.otp-input-container {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.otp-input:nth-child(3) {
+  margin-right: 0.4rem;
+}
+
+.otp-input:nth-child(4) {
+  margin-left: 0.4rem;
+}
+
+.otp-input input {
+  outline: none !important;
+  font-size: 1rem;
+}

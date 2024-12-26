@@ -6,6 +6,8 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [sendTo, setSendTo] = useState("");
+  const [otp, setOtp] = useState("");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -14,8 +16,12 @@ export const UserProvider = ({ children }) => {
   const contextValue = {
     isLoading,
     setIsLoading,
+    sendTo,
+    setSendTo,
     credentials,
     setCredentials,
+    otp,
+    setOtp,
   };
 
   return (
